@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
@@ -8,8 +10,8 @@ import (
 func SetupRoutes(app *fiber.App) {
 
 	allowedOrigins := map[string]bool{
-		"http://localhost:4321":    true,
-		"http://192.168.3.16:1000": true,
+		"http://localhost:4321": true,
+		os.Getenv("URL_WEB"):    true,
 	}
 
 	app.Use(cors.New(cors.Config{

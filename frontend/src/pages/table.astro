@@ -45,6 +45,8 @@ import MainLayout from "../layouts/main.astro";
 </MainLayout>
 
 <script>
+  import { Url_base } from "@/helper/UrlBase";
+
   interface Comprador {
     id?: number;
     id_comprador?: number;
@@ -73,7 +75,7 @@ import MainLayout from "../layouts/main.astro";
     totalConEnvio: number;
   }
 
-  const serverBaseUrl = "http://192.168.3.16:2000/api/v1";
+  const serverBaseUrl = `${Url_base}/api/v1`;
   const apiCompradores = `${serverBaseUrl}/comprador`;
   const apiPedidos = `${serverBaseUrl}/pedidos`;
   const SHIPPING_COST = 20;
