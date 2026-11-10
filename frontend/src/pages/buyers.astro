@@ -51,9 +51,9 @@ import MainLayout from "../layouts/main.astro";
 </MainLayout>
 
 <script>
-  import { Url_base } from "@/helper/UrlBase";
+  import { apiBaseUrl, readJson } from "@/helper/api";
 
-  const serverBaseUrl = `${Url_base}/api/v1`;
+  const serverBaseUrl = apiBaseUrl;
   const apiCompradores = `${serverBaseUrl}/comprador`;
   const apiCrearComprador = `${serverBaseUrl}/comprador`;
   const apiEliminarCompradorBase = `${serverBaseUrl}/comprador`;
@@ -95,7 +95,7 @@ import MainLayout from "../layouts/main.astro";
       const res = await fetch(apiCompradores);
       if (!res.ok) throw new Error(`Error al cargar: ${res.status}`);
 
-      let data = await res.json();
+      let data = await readJson(res);
       lista.innerHTML = "";
 
       if (Array.isArray(data) && data.length > 0) {
@@ -260,7 +260,7 @@ import MainLayout from "../layouts/main.astro";
           });
         }
 
-        const data = await res.json();
+        const data = await readJson(res);
         if (!res.ok) throw new Error(data.message || "Error en la operación");
 
         if (feedback) {

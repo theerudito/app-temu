@@ -16,7 +16,9 @@ func main() {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		AppName: "TEMU",
+	})
 
 	InitDB()
 
@@ -24,6 +26,11 @@ func main() {
 
 	SetupRoutes(app)
 
-	_ = app.Listen(fmt.Sprintf(":%s", os.Getenv("PORT_SERVER")))
+	port := os.Getenv("PORT_SERVER")
+
+	log.Printf("🚀 Servidor corriendo en el puerto %s", port)
+	if err := app.Listen(fmt.Sprintf(":%s", port)); err != nil {
+		log.Fatalf("❌ Error al levantar el servidor: %v", err)
+	}
 
 }

@@ -111,7 +111,7 @@ import MainLayout from "../layouts/main.astro";
 </MainLayout>
 
 <script>
-  import { Url_base } from "@/helper/UrlBase";
+  import { apiBaseUrl, readJson } from "@/helper/api";
 
   interface Comprador {
     id?: number;
@@ -135,7 +135,7 @@ import MainLayout from "../layouts/main.astro";
     id_comprador?: number | null;
     [key: string]: any;
   }
-  const serverBaseUrl = `${Url_base}/api/v1`;
+  const serverBaseUrl = apiBaseUrl;
   const apiCompradores = `${serverBaseUrl}/comprador`;
   const apiPedidos = `${serverBaseUrl}/pedidos`;
   const asignarComprador = `${serverBaseUrl}/pedidos/asignar`;
@@ -308,8 +308,8 @@ import MainLayout from "../layouts/main.astro";
       if (!compRes.ok) throw new Error(`Error Compradores: ${compRes.status}`);
       if (!pedRes.ok) throw new Error(`Error Pedidos: ${pedRes.status}`);
 
-      globalCompradores = await compRes.json();
-      const pedidosJson = await pedRes.json();
+      globalCompradores = await readJson(compRes);
+      const pedidosJson = await readJson(pedRes);
 
       globalPedidos = Array.isArray(pedidosJson)
         ? pedidosJson
@@ -375,7 +375,7 @@ import MainLayout from "../layouts/main.astro";
         });
       }
 
-      const data = await res.json().catch(() => ({}));
+      const data = await readJson(res);
       if (!res.ok) throw new Error(data.message || "Error en el servidor");
 
       select.classList.add("ring-2", "ring-green-500", "border-green-500");

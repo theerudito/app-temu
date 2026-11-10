@@ -45,7 +45,7 @@ import MainLayout from "../layouts/main.astro";
 </MainLayout>
 
 <script>
-  import { Url_base } from "@/helper/UrlBase";
+  import { apiBaseUrl, readJson } from "@/helper/api";
 
   interface Comprador {
     id?: number;
@@ -75,7 +75,7 @@ import MainLayout from "../layouts/main.astro";
     totalConEnvio: number;
   }
 
-  const serverBaseUrl = `${Url_base}/api/v1`;
+  const serverBaseUrl = apiBaseUrl;
   const apiCompradores = `${serverBaseUrl}/comprador`;
   const apiPedidos = `${serverBaseUrl}/pedidos`;
   const SHIPPING_COST = 20;
@@ -116,8 +116,8 @@ import MainLayout from "../layouts/main.astro";
       if (!compRes.ok) throw new Error(`Error Compradores: ${compRes.status}`);
       if (!pedRes.ok) throw new Error(`Error Pedidos: ${pedRes.status}`);
 
-      const compradores: Comprador[] = await compRes.json();
-      const pedidosRaw = await pedRes.json();
+      const compradores: Comprador[] = await readJson(compRes);
+      const pedidosRaw = await readJson(pedRes);
       const pedidos: Pedido[] = Array.isArray(pedidosRaw)
         ? pedidosRaw
         : pedidosRaw
