@@ -2,3 +2,4 @@ node_modules/
 compras.db
 session.json
 perfil-temu
+.env
